@@ -3,6 +3,7 @@ import json
 
 from .analytics import AnalyticsError, TrafficAnalyzer
 from .config import ConfigError, load_store_config
+from .evaluation import EvaluationError, evaluate_files
 from .io import ObservationError, read_observations, write_outputs
 from .synthetic import generate_demo
 from .video import VideoError, analyze_video, parse_video_source
@@ -35,6 +36,10 @@ def main() -> None:
     video.add_argument("--output", default="outputs/video")
     video.add_argument("--save-video", action="store_true", help="write annotated.mp4 (contains raw imagery)")
     video.add_argument("--max-frames", type=int, help="stop after this many frames")
+    evaluate = subcommands.add_parser("evaluate", help="compare a report with annotated ground truth")
+    evaluate.add_argument("--report", default="outputs/demo/report.json")
+    evaluate.add_argument("--ground-truth", default="evaluation/synthetic_ground_truth.json")
+    evaluate.add_argument("--output", default="outputs/evaluation.json")
     args = parser.parse_args()
 
     try:
@@ -47,7 +52,7 @@ def main() -> None:
         elif args.command == "analyze":
             report = analyze(args.config, args.input, args.output)
             print(json.dumps(report, indent=2))
-        else:
+        elif args.command == "video":
             report = analyze_video(
                 parse_video_source(args.source),
                 args.config,
@@ -56,7 +61,10 @@ def main() -> None:
                 max_frames=args.max_frames,
             )
             print(json.dumps(report, indent=2))
-    except (ConfigError, ObservationError, AnalyticsError, VideoError) as exc:
+        else:
+            metrics = evaluate_files(args.report, args.ground_truth, args.output)
+            print(json.dumps(metrics, indent=2))
+    except (ConfigError, ObservationError, AnalyticsError, VideoError, EvaluationError) as exc:
         parser.exit(2, f"Error: {exc}\n")
 
 

@@ -1,5 +1,7 @@
 # Dwell-Time & Bottleneck Mapper
 
+[![CI](https://github.com/vikaskumar2500/dwell-time-bottleneck-mapper/actions/workflows/ci.yml/badge.svg)](https://github.com/vikaskumar2500/dwell-time-bottleneck-mapper/actions/workflows/ci.yml)
+
 A privacy-aware retail computer vision project that turns standard in-store camera feeds into anonymous customer journeys, section-level dwell metrics, foot-traffic heatmaps, and layout bottleneck alerts.
 
 ## Problem
@@ -29,12 +31,13 @@ flowchart LR
 - Sustained bottleneck and dead-zone detection
 - JSON and CSV analytics reports
 - Recorded video, webcam, and RTSP input support
+- Reproducible business-metric evaluation and automated CI
 
 ## Current status
 
-**Phase 4 — YOLO video pipeline: complete**
+**Phase 5 — evaluation and portfolio release: complete**
 
-The project now connects YOLO11 person detection and ByteTrack multi-object tracking to the Phase 3 analytics engine. It accepts a video file, camera index, or stream URL; emits anonymous floor-position observations; and produces analytics reports, a heatmap image, runtime metrics, and an optional annotated video.
+The end-to-end pipeline connects YOLO11 person detection and ByteTrack tracking to spatial analytics. Phase 5 adds a reproducible evaluator, synthetic ground truth, automated tests on Python 3.9 and 3.12, and concise demo and resume documentation. Real-store accuracy remains an explicit field-evaluation task.
 
 ## Run the demo
 
@@ -47,10 +50,11 @@ pip install .
 dwell-map validate-config config/store.sample.json
 dwell-map generate-demo
 dwell-map analyze
+dwell-map evaluate
 python -m unittest discover -s tests -v
 ```
 
-The analysis writes `report.json`, `zone_metrics.csv`, and `heatmap.csv` under `outputs/demo/`.
+The analysis writes `report.json`, `zone_metrics.csv`, and `heatmap.csv` under `outputs/demo/`. Evaluation metrics are written to `outputs/evaluation.json`.
 
 ## Run on video
 
@@ -74,6 +78,9 @@ Use `--source 0` for the default webcam or pass an RTSP URL. The first run downl
 - [System architecture](docs/ARCHITECTURE.md)
 - [Implementation roadmap](docs/ROADMAP.md)
 - [Video pipeline and smoke test](docs/VIDEO_PIPELINE.md)
+- [Evaluation protocol and baseline](docs/EVALUATION.md)
+- [Demo guide](docs/DEMO.md)
+- [Resume notes](docs/RESUME.md)
 
 ## Technology direction
 

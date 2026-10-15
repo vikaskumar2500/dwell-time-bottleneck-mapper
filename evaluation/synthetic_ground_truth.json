@@ -1,0 +1,17 @@
+{
+  "dataset": "deterministic synthetic demo",
+  "zones": {
+    "entrance": {"visits": 4, "mean_dwell_seconds": 2.0},
+    "produce": {"visits": 4, "mean_dwell_seconds": 5.0},
+    "promo": {"visits": 0, "mean_dwell_seconds": 0.0},
+    "checkout": {"visits": 4, "mean_dwell_seconds": 9.0}
+  },
+  "transitions": [
+    {"from": "entrance", "to": "produce", "count": 4},
+    {"from": "produce", "to": "checkout", "count": 4}
+  ],
+  "alerts": [
+    {"type": "dead_zone", "zone_id": "promo"},
+    {"type": "bottleneck", "zone_id": "checkout"}
+  ]
+}
