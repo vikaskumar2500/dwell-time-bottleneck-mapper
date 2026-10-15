@@ -1,5 +1,5 @@
-from dataclasses import dataclass
-from typing import Optional, Tuple
+from dataclasses import dataclass, field
+from typing import List, Optional, Set, Tuple
 
 Point = Tuple[float, float]
 
@@ -38,4 +38,50 @@ class StoreConfig:
         from .geometry import point_in_polygon
 
         return next((zone for zone in self.zones if point_in_polygon(point, zone.polygon)), None)
+
+
+@dataclass(frozen=True)
+class Observation:
+    track_id: str
+    x: float
+    y: float
+
+    @property
+    def point(self) -> Point:
+        return self.x, self.y
+
+
+@dataclass
+class Visit:
+    track_id: str
+    zone_id: str
+    entered_at: float
+    last_seen_at: float
+    exited_at: Optional[float] = None
+
+    @property
+    def duration(self) -> float:
+        end = self.exited_at if self.exited_at is not None else self.last_seen_at
+        return max(0.0, end - self.entered_at)
+
+
+@dataclass
+class TrackState:
+    last_seen_at: float
+    last_point: Point
+    current_zone: Optional[str] = None
+    active_visit: Optional[Visit] = None
+    visible: bool = True
+
+
+@dataclass
+class ZoneMetrics:
+    visits: int = 0
+    unique_tracks: Set[str] = field(default_factory=set)
+    dwell_seconds: List[float] = field(default_factory=list)
+    occupancy_seconds: float = 0.0
+    max_occupancy: int = 0
+    bottleneck_seconds: float = 0.0
+    bottleneck_streak_seconds: float = 0.0
+    longest_bottleneck_seconds: float = 0.0
 

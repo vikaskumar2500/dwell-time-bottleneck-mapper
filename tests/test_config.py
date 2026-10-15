@@ -31,7 +31,7 @@ class ConfigTests(unittest.TestCase):
         path = Path(__file__).resolve().parents[1] / "config/store.sample.json"
         config = load_store_config(str(path))
         self.assertEqual(config.store_id, "demo-store-01")
-        self.assertEqual(len(config.zones), 3)
+        self.assertEqual(len(config.zones), 4)
         self.assertEqual(config.zone_at((100, 600)).id, "entrance")
 
     def test_missing_required_field(self):

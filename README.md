@@ -19,7 +19,7 @@ flowchart LR
     E --> F[Heatmaps and operational alerts]
 ```
 
-## Planned capabilities
+## Capabilities
 
 - Anonymous customer tracking without face recognition
 - Configurable store sections and floor-plan zones
@@ -32,11 +32,11 @@ flowchart LR
 
 ## Current status
 
-**Phase 2 — Spatial analytics foundation: complete**
+**Phase 3 — Dwell analytics MVP: complete**
 
-The project now includes typed domain models, strict JSON configuration validation, polygon geometry, and point-to-zone lookup. The core has no computer-vision dependencies, keeping it easy to test and ready for the dwell analytics engine in Phase 3.
+The model-independent pipeline now converts anonymous tracker observations into visits, dwell distributions, occupancy, heatmaps, zone transitions, bottleneck alerts, and dead-zone alerts. A deterministic demo exercises the complete analytics path without downloading model weights.
 
-## Try the Phase 2 foundation
+## Run the demo
 
 Python 3.9 or newer is required. The current phase has no third-party runtime dependencies.
 
@@ -45,8 +45,12 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install .
 dwell-map validate-config config/store.sample.json
+dwell-map generate-demo
+dwell-map analyze
 python -m unittest discover -s tests -v
 ```
+
+The analysis writes `report.json`, `zone_metrics.csv`, and `heatmap.csv` under `outputs/demo/`. Phase 4 will connect this interface to YOLO person detection and tracking.
 
 ## Documentation
 

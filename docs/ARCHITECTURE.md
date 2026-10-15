@@ -56,3 +56,9 @@ Coordinates use the resized camera frame, with `(0, 0)` at the top-left. The ini
 
 The system will report person precision/recall, tracking IDF1 or HOTA, zone-visit count error, median absolute dwell-time error, bottleneck event F1, detection delay, end-to-end FPS, p95 latency, and memory usage. Results will be reported separately for sparse, crowded, occluded, and low-light clips.
 
+## Phase 3 analytics behavior
+
+Each timestamp contains at most one position per track. The interval until the next timestamp is attributed to the last visible position. A short disappearance preserves visit continuity until the configured TTL, while invisible intervals do not add heat or occupancy. If the track does not return before expiry, dwell closes at its last observed timestamp.
+
+Reports persist aggregate zone statistics and directed transition counts. Track-level journeys remain in memory only and are excluded from default report files. Bottlenecks require continuously elevated occupancy for the configured duration; separate brief crowding periods are not combined into one alert.
+
