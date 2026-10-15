@@ -62,3 +62,9 @@ Each timestamp contains at most one position per track. The interval until the n
 
 Reports persist aggregate zone statistics and directed transition counts. Track-level journeys remain in memory only and are excluded from default report files. Bottlenecks require continuously elevated occupancy for the configured duration; separate brief crowding periods are not combined into one alert.
 
+## Phase 4 perception behavior
+
+The video adapter resizes each frame to the configured coordinate system and runs the configured YOLO model with person class `0`. ByteTrack keeps session-local identities across consecutive frames. The bottom-center of each tracked bounding box becomes the floor-position observation consumed by the analytics engine.
+
+The adapter records source FPS, processing FPS, total and steady-state inference latency, frame count, detections, and unique session tracks. Model warmup is reported separately from steady latency. Annotated video is opt-in because it contains source imagery; aggregate reports and the standalone heatmap remain the default outputs.
+

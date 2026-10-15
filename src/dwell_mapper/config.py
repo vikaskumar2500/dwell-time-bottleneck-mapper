@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, Tuple
 
 from .geometry import polygon_area
-from .models import AnalyticsSettings, FrameSize, Point, StoreConfig, Zone
+from .models import AnalyticsSettings, FrameSize, Point, StoreConfig, VisionSettings, Zone
 
 
 class ConfigError(ValueError):
@@ -98,7 +98,27 @@ def parse_store_config(raw: Any) -> StoreConfig:
         dead_zone_max_visits=int(_number(analytics_data["dead_zone_max_visits"], "analytics.dead_zone_max_visits", integer=True, minimum=0)),
         track_ttl_seconds=float(_number(analytics_data["track_ttl_seconds"], "analytics.track_ttl_seconds", minimum=0)),
     )
-    return StoreConfig(data["store_id"].strip(), frame, tuple(zones), analytics)
+
+    vision_data = _mapping(data.get("vision", {}), "vision")
+    defaults = VisionSettings()
+    model = vision_data.get("model", defaults.model)
+    tracker = vision_data.get("tracker", defaults.tracker)
+    if not isinstance(model, str) or not model.strip():
+        raise ConfigError("vision.model must be a non-empty string")
+    if not isinstance(tracker, str) or not tracker.strip():
+        raise ConfigError("vision.tracker must be a non-empty string")
+    confidence = float(_number(vision_data.get("confidence", defaults.confidence), "vision.confidence"))
+    iou = float(_number(vision_data.get("iou", defaults.iou), "vision.iou"))
+    if confidence > 1 or iou > 1:
+        raise ConfigError("vision confidence and iou must be <= 1")
+    vision = VisionSettings(
+        model=model.strip(),
+        tracker=tracker.strip(),
+        confidence=confidence,
+        iou=iou,
+        image_size=int(_number(vision_data.get("image_size", defaults.image_size), "vision.image_size", integer=True, minimum=32)),
+    )
+    return StoreConfig(data["store_id"].strip(), frame, tuple(zones), analytics, vision)
 
 
 def load_store_config(path: str) -> StoreConfig:

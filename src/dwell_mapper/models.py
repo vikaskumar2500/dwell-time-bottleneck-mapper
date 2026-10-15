@@ -27,11 +27,21 @@ class AnalyticsSettings:
 
 
 @dataclass(frozen=True)
+class VisionSettings:
+    model: str = "yolo11n.pt"
+    tracker: str = "bytetrack.yaml"
+    confidence: float = 0.35
+    iou: float = 0.7
+    image_size: int = 640
+
+
+@dataclass(frozen=True)
 class StoreConfig:
     store_id: str
     frame: FrameSize
     zones: Tuple[Zone, ...]
     analytics: AnalyticsSettings
+    vision: VisionSettings = VisionSettings()
 
     def zone_at(self, point: Point) -> Optional[Zone]:
         # Local import avoids coupling the domain models to implementation details.

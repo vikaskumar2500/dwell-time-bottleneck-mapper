@@ -29,5 +29,12 @@
     "bottleneck_min_seconds": 4,
     "dead_zone_max_visits": 1,
     "track_ttl_seconds": 2
+  },
+  "vision": {
+    "model": "yolo11n.pt",
+    "tracker": "bytetrack.yaml",
+    "confidence": 0.35,
+    "iou": 0.7,
+    "image_size": 640
   }
 }

@@ -5,6 +5,7 @@ from .analytics import AnalyticsError, TrafficAnalyzer
 from .config import ConfigError, load_store_config
 from .io import ObservationError, read_observations, write_outputs
 from .synthetic import generate_demo
+from .video import VideoError, analyze_video, parse_video_source
 
 
 def analyze(config_path: str, input_path: str, output_dir: str) -> dict:
@@ -28,6 +29,12 @@ def main() -> None:
     run.add_argument("--config", default="config/store.sample.json")
     run.add_argument("--input", default="data/sample/tracks.jsonl")
     run.add_argument("--output", default="outputs/demo")
+    video = subcommands.add_parser("video", help="run YOLO tracking on a video or camera")
+    video.add_argument("--source", required=True, help="video path, stream URL, or camera index")
+    video.add_argument("--config", default="config/store.sample.json")
+    video.add_argument("--output", default="outputs/video")
+    video.add_argument("--save-video", action="store_true", help="write annotated.mp4 (contains raw imagery)")
+    video.add_argument("--max-frames", type=int, help="stop after this many frames")
     args = parser.parse_args()
 
     try:
@@ -37,10 +44,19 @@ def main() -> None:
         elif args.command == "generate-demo":
             generate_demo(args.output)
             print(f"Demo observations written to {args.output}")
-        else:
+        elif args.command == "analyze":
             report = analyze(args.config, args.input, args.output)
             print(json.dumps(report, indent=2))
-    except (ConfigError, ObservationError, AnalyticsError) as exc:
+        else:
+            report = analyze_video(
+                parse_video_source(args.source),
+                args.config,
+                args.output,
+                save_video=args.save_video,
+                max_frames=args.max_frames,
+            )
+            print(json.dumps(report, indent=2))
+    except (ConfigError, ObservationError, AnalyticsError, VideoError) as exc:
         parser.exit(2, f"Error: {exc}\n")
 
 

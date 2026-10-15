@@ -32,9 +32,9 @@ flowchart LR
 
 ## Current status
 
-**Phase 3 — Dwell analytics MVP: complete**
+**Phase 4 — YOLO video pipeline: complete**
 
-The model-independent pipeline now converts anonymous tracker observations into visits, dwell distributions, occupancy, heatmaps, zone transitions, bottleneck alerts, and dead-zone alerts. A deterministic demo exercises the complete analytics path without downloading model weights.
+The project now connects YOLO11 person detection and ByteTrack multi-object tracking to the Phase 3 analytics engine. It accepts a video file, camera index, or stream URL; emits anonymous floor-position observations; and produces analytics reports, a heatmap image, runtime metrics, and an optional annotated video.
 
 ## Run the demo
 
@@ -50,13 +50,30 @@ dwell-map analyze
 python -m unittest discover -s tests -v
 ```
 
-The analysis writes `report.json`, `zone_metrics.csv`, and `heatmap.csv` under `outputs/demo/`. Phase 4 will connect this interface to YOLO person detection and tracking.
+The analysis writes `report.json`, `zone_metrics.csv`, and `heatmap.csv` under `outputs/demo/`.
+
+## Run on video
+
+Install the optional computer-vision dependencies:
+
+```bash
+pip install '.[video]'
+```
+
+Process a recorded clip:
+
+```bash
+dwell-map video --source /path/to/store.mp4 --save-video
+```
+
+Use `--source 0` for the default webcam or pass an RTSP URL. The first run downloads the configured lightweight model weights. Video outputs are written under `outputs/video/`; `annotated.mp4` is created only with `--save-video` because it retains source imagery.
 
 ## Documentation
 
 - [Requirements and scope](docs/REQUIREMENTS.md)
 - [System architecture](docs/ARCHITECTURE.md)
 - [Implementation roadmap](docs/ROADMAP.md)
+- [Video pipeline and smoke test](docs/VIDEO_PIPELINE.md)
 
 ## Technology direction
 

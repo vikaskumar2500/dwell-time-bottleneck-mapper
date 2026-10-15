@@ -3,7 +3,7 @@
 from .analytics import AnalyticsError, TrafficAnalyzer
 from .config import ConfigError, load_store_config
 from .geometry import locate_zone, point_in_polygon
-from .models import AnalyticsSettings, FrameSize, Observation, Point, StoreConfig, Zone
+from .models import AnalyticsSettings, FrameSize, Observation, Point, StoreConfig, VisionSettings, Zone
 
 __all__ = [
     "AnalyticsSettings",
@@ -14,11 +14,12 @@ __all__ = [
     "Point",
     "StoreConfig",
     "TrafficAnalyzer",
+    "VisionSettings",
     "Zone",
     "load_store_config",
     "locate_zone",
     "point_in_polygon",
 ]
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 

@@ -33,6 +33,8 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(config.store_id, "demo-store-01")
         self.assertEqual(len(config.zones), 4)
         self.assertEqual(config.zone_at((100, 600)).id, "entrance")
+        self.assertEqual(config.vision.model, "yolo11n.pt")
+        self.assertEqual(config.vision.tracker, "bytetrack.yaml")
 
     def test_missing_required_field(self):
         raw = valid_config()
@@ -68,6 +70,12 @@ class ConfigTests(unittest.TestCase):
         raw = valid_config()
         raw["analytics"]["track_ttl_seconds"] = -1
         with self.assertRaisesRegex(ConfigError, ">= 0"):
+            parse_store_config(raw)
+
+    def test_rejects_invalid_vision_confidence(self):
+        raw = valid_config()
+        raw["vision"] = {"confidence": 1.2}
+        with self.assertRaisesRegex(ConfigError, "must be <= 1"):
             parse_store_config(raw)
 
 
