@@ -1,0 +1,28 @@
+{
+  "store_id": "demo-store-01",
+  "frame": {"width": 1280, "height": 720},
+  "zones": [
+    {
+      "id": "entrance",
+      "name": "Entrance",
+      "polygon": [[0, 430], [260, 430], [260, 720], [0, 720]]
+    },
+    {
+      "id": "produce",
+      "name": "Fresh Produce",
+      "polygon": [[270, 80], [620, 80], [620, 400], [270, 400]]
+    },
+    {
+      "id": "checkout",
+      "name": "Checkout",
+      "polygon": [[940, 360], [1280, 360], [1280, 720], [940, 720]]
+    }
+  ],
+  "analytics": {
+    "heatmap_cell_px": 40,
+    "bottleneck_occupancy": 3,
+    "bottleneck_min_seconds": 4,
+    "dead_zone_max_visits": 1,
+    "track_ttl_seconds": 2
+  }
+}
