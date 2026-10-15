@@ -18,7 +18,7 @@ class MotPreparationTests(unittest.TestCase):
             encoding="utf-8",
         )
         (sequence / "gt" / "gt.txt").write_text(
-            "1,7,10,20,20,40,1,1,1\n"
+            "1,7,10,100,20,40,1,1,1\n"
             "1,8,100,10,20,30,0,1,1\n"
             "2,7,20,20,20,40,1,1,1\n"
             "2,9,200,20,20,40,1,7,1\n",
@@ -39,6 +39,7 @@ class MotPreparationTests(unittest.TestCase):
             self.assertEqual(len(config.zones), 3)
             self.assertEqual(len(records), 3)
             self.assertEqual(records[0][1][0].track_id, "7")
+            self.assertEqual(records[0][1][0].y, 120.0)
             self.assertEqual(records[1][0], 0.1)
             self.assertEqual(json.loads((output / "manifest.json").read_text()), manifest)
 

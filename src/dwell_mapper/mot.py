@@ -32,7 +32,12 @@ def _sequence_metadata(sequence: Path) -> Dict[str, object]:
     return metadata
 
 
-def _ground_truth(sequence: Path, length: int) -> Dict[int, List[Dict[str, object]]]:
+def _ground_truth(
+    sequence: Path,
+    length: int,
+    frame_width: int,
+    frame_height: int,
+) -> Dict[int, List[Dict[str, object]]]:
     path = sequence / "gt" / "gt.txt"
     frames: Dict[int, List[Dict[str, object]]] = {index: [] for index in range(1, length + 1)}
     try:
@@ -49,7 +54,10 @@ def _ground_truth(sequence: Path, length: int) -> Dict[int, List[Dict[str, objec
             object_class = int(float(row[7])) if len(row) > 7 else 1
             if marked != 1 or object_class != 1 or frame not in frames:
                 continue
-            x, y = left + width / 2.0, top + height
+            # MOT boxes may extend beyond the image when a person is only
+            # partly visible. Keep their floor point on the nearest edge.
+            x = min(float(frame_width), max(0.0, left + width / 2.0))
+            y = min(float(frame_height), max(0.0, top + height))
             frames[frame].append({"track_id": str(track_id), "x": x, "y": y})
     except (ValueError, csv.Error) as exc:
         raise MotError(f"invalid MOT ground truth: {path}") from exc
@@ -88,7 +96,12 @@ def _store_config(name: str, width: int, height: int) -> Dict[str, object]:
 def prepare_mot_sequence(sequence_path: str, output_dir: str, *, create_video: bool = False) -> Dict[str, object]:
     sequence = Path(sequence_path)
     metadata = _sequence_metadata(sequence)
-    frames = _ground_truth(sequence, int(metadata["length"]))
+    frames = _ground_truth(
+        sequence,
+        int(metadata["length"]),
+        int(metadata["width"]),
+        int(metadata["height"]),
+    )
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
 
