@@ -7,6 +7,8 @@ dist/
 *.egg-info/
 .env
 data/private/
+data/external/
+data/processed/
 data/sample/*.jsonl
 outputs/
 *.mp4

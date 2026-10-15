@@ -35,9 +35,9 @@ flowchart LR
 
 ## Current status
 
-**Phase 5 — evaluation and portfolio release: complete**
+**Phase 6 — public-dataset field validation: in progress**
 
-The end-to-end pipeline connects YOLO11 person detection and ByteTrack tracking to spatial analytics. Phase 5 adds a reproducible evaluator, synthetic ground truth, automated tests on Python 3.9 and 3.12, and concise demo and resume documentation. Real-store accuracy remains an explicit field-evaluation task.
+The end-to-end pipeline connects YOLO11 person detection and ByteTrack tracking to spatial analytics. Phase 6 adds a MOTChallenge adapter so official pedestrian tracks and the model pipeline can be evaluated on the same public sequence and zone configuration. Measured results will be published only after running the external dataset.
 
 ## Run the demo
 
@@ -81,6 +81,7 @@ Use `--source 0` for the default webcam or pass an RTSP URL. The first run downl
 - [Evaluation protocol and baseline](docs/EVALUATION.md)
 - [Demo guide](docs/DEMO.md)
 - [Resume notes](docs/RESUME.md)
+- [MOT17 evaluation workflow](docs/MOT17_EVALUATION.md)
 
 ## Technology direction
 

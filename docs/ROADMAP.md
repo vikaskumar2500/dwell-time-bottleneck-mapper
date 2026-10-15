@@ -7,7 +7,7 @@
 | 3. Dwell analytics MVP | Visits, dwell, heatmap, transitions, bottleneck and dead-zone rules | Deterministic synthetic scenarios match ground truth | Complete |
 | 4. YOLO video pipeline | Person detection, tracking, video adapter, annotated output | Recorded-video smoke test and tracker configuration documented | Complete |
 | 5. Evaluation and portfolio release | Reproducible evaluator, CI, demo, evidence-based resume notes | Tests pass and results contain no placeholder claims | Complete |
-| 6. Field validation | Annotated retail clips, calibration, detector and tracker metrics | Results reported on footage split by recording session | Next |
+| 6. Public-dataset validation | MOT17 adapter, ground-truth analytics, YOLO comparison | Results reported from an external annotated sequence | In progress |
 | 7. Product extensions | Dashboard, alert history, multi-camera research | Defined after field validation | Future |
 
 ## Development workflow

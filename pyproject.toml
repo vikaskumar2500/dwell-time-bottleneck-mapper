@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dwell-time-bottleneck-mapper"
-version = "0.5.0"
+version = "0.6.0"
 description = "Privacy-aware spatial analytics for retail camera feeds"
 requires-python = ">=3.9"
 
