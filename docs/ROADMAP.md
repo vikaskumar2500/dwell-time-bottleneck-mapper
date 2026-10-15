@@ -3,8 +3,8 @@
 | Phase | Deliverable | Completion gate | Status |
 |---|---|---|---|
 | 1. Planning and architecture | Requirements, privacy boundary, HLD, contracts, metrics | Design documents are consistent and reviewable | Complete |
-| 2. Spatial analytics foundation | Configuration models, validation, polygon mapping | Unit tests cover valid, invalid, inside, outside, and boundary cases | Next |
-| 3. Dwell analytics MVP | Visits, dwell, heatmap, transitions, bottleneck and dead-zone rules | Deterministic synthetic scenarios match ground truth | Planned |
+| 2. Spatial analytics foundation | Configuration models, validation, polygon mapping | Unit tests cover valid, invalid, inside, outside, and boundary cases | Complete |
+| 3. Dwell analytics MVP | Visits, dwell, heatmap, transitions, bottleneck and dead-zone rules | Deterministic synthetic scenarios match ground truth | Next |
 | 4. YOLO video pipeline | Person detection, tracking, video adapter, annotated output | Recorded-video smoke test and tracker configuration documented | Planned |
 | 5. Evaluation and portfolio release | Held-out evaluation, CI, demo, measured resume results | Tests pass and results contain no placeholder claims | Planned |
 | 6. Product extensions | Dashboard, alert history, calibration, multi-camera research | Defined after baseline evaluation | Future |

@@ -32,9 +32,21 @@ flowchart LR
 
 ## Current status
 
-**Phase 1 — Planning and architecture: complete**
+**Phase 2 — Spatial analytics foundation: complete**
 
-The problem scope, requirements, privacy boundaries, data flow, system architecture, evaluation metrics, and phased implementation plan are documented. Implementation begins in Phase 2 with the model-independent spatial analytics foundation.
+The project now includes typed domain models, strict JSON configuration validation, polygon geometry, and point-to-zone lookup. The core has no computer-vision dependencies, keeping it easy to test and ready for the dwell analytics engine in Phase 3.
+
+## Try the Phase 2 foundation
+
+Python 3.9 or newer is required. The current phase has no third-party runtime dependencies.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install .
+dwell-map validate-config config/store.sample.json
+python -m unittest discover -s tests -v
+```
 
 ## Documentation
 
